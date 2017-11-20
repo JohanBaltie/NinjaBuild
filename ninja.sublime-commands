@@ -1,0 +1,6 @@
+[
+    {
+        "caption": "Ninja: Build project",
+        "command": "ninja"
+    },
+]

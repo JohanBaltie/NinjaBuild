@@ -1,0 +1,5 @@
+{
+    "executable_name": "ninja",
+    "listing_command": [ "ninja", "-t", "targets" ],
+    "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"
+}
