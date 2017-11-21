@@ -60,6 +60,7 @@ class Ninja(WindowCommand):
                                                  cwd=working_dir)
         for target in str(listing_output, 'utf-8').splitlines():
             targets.append(target.split(':')[0])
+        targets.sort()
         return targets
 
     def build_from_panel(self, panel, index, configuration):
@@ -90,7 +91,7 @@ class Ninja(WindowCommand):
         print("Cmd: \"{Cmd}\"".format(Cmd=build_system))
         print("Result: {0}", self.window.run_command("exec", build_system))
 
-    def run(self):
+    def run(self, build_all=False):
         """
         Command run call by the build system
         """
@@ -99,10 +100,15 @@ class Ninja(WindowCommand):
         if (configuration is None):
             return
 
-        panel = self.list_targets(configuration["working_dir"],
-                                  configuration["listing_command"])
-        self.window.show_quick_panel(panel,
-                                    lambda index:
-                                    self.build_from_panel(panel,
-                                                          index,
-                                                          configuration))
+        if (build_all):
+            self.start_build(configuration["executable_name"],
+                             configuration["working_dir"],
+                             configuration["listing_command"])
+        else:
+            panel = self.list_targets(configuration["working_dir"],
+                                     configuration["listing_command"])
+            self.window.show_quick_panel(panel,
+                                        lambda index:
+                                        self.build_from_panel(panel,
+                                                              index,
+                                                              configuration))

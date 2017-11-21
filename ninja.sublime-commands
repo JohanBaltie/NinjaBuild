@@ -3,4 +3,9 @@
         "caption": "Ninja: Build project",
         "command": "ninja"
     },
+    {
+        "caption": "Ninja: Build all",
+        "command": "ninja",
+        "args": { "build_all": true }
+    },
 ]
