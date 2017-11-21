@@ -71,6 +71,7 @@ class Ninja(WindowCommand):
             return
 
         # Nope, there is something !
+        self.previousBuild = panel[index]
         command = [ configuration["executable_name"], panel[index] ]
         self.start_build(command,
                          configuration["working_dir"],
@@ -100,13 +101,16 @@ class Ninja(WindowCommand):
         if (configuration is None):
             return
 
-        if (build_all):
+        if build_all:
             self.start_build(configuration["executable_name"],
                              configuration["working_dir"],
                              configuration["listing_command"])
         else:
             panel = self.list_targets(configuration["working_dir"],
                                      configuration["listing_command"])
+            if hasattr(self, "previousBuild"):
+                panel.remove(self.previousBuild)
+                panel.insert(0, self.previousBuild)
             self.window.show_quick_panel(panel,
                                         lambda index:
                                         self.build_from_panel(panel,
