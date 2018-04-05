@@ -113,7 +113,11 @@ class Ninja(WindowCommand):
                 self.previousBuilds = list()
 
             for previousBuild in self.previousBuilds:
-                panel.remove(previousBuild)
+                try:
+                    panel.remove(previousBuild)
+                except ValueError:
+                    # When value was removed from list
+                    pass
                 panel.insert(0, previousBuild)
             self.window.show_quick_panel(panel,
                                         lambda index:
