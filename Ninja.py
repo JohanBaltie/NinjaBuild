@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from sublime import error_message, load_settings
+from sublime import expand_variables, error_message, load_settings
 from sublime_plugin import WindowCommand
 
 
@@ -38,7 +38,8 @@ class Ninja(WindowCommand):
                 error_message(error_string)
             return value
 
-        working_dir = project_configuration.get("working_dir")
+        variables = self.window.extract_variables();
+        working_dir = expand_variables(project_configuration.get("working_dir"), variables)
         if not os.path.exists(working_dir):
             error_string = ("Ninja: "
                             "\"{0}\" does not exists").format(working_dir)
